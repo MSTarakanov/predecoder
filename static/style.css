@@ -1,0 +1,59 @@
+.left {
+  background: grey;
+}
+
+.right {
+  background: black;
+}
+
+.main-wrapper {
+  height: 100vh;
+}
+
+.section {
+  height: 33%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.last-section {
+    height: 34%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.half {
+  background: #f9f9f9;
+  height: 50%;
+  width: 100%;
+  margin: 15px 0;
+}
+
+.link-to {
+   color: white;
+   font-size: 24px;
+
+}
+
+a:hover {
+  color: #007bff;
+}
+
+h4 {
+  color: white;
+}
+
+h3 {
+  color: blue;
+}
+
+h2 {
+  color: white;
+}
+
+.centered {
+    align-items: center;
+}

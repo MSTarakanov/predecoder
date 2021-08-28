@@ -1,0 +1,31 @@
+h3 {
+  color: red;
+}
+
+.centered {
+    align-items: center;
+    text-align: center;
+}
+
+.table {
+  display: -moz-groupbox;
+}
+
+.table tbody {
+  overflow-y: auto;
+  max-height: 190px;
+  width: 100%;
+  position: fixed;
+}
+
+.table td {
+  width: 20px;
+  text-align: center;
+}
+
+.table tbody tr:nth-child(odd){
+	background: #fff;
+}
+.table tbody tr:nth-child(even){
+	background: #F7F7F7;
+}

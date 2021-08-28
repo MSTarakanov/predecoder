@@ -1,0 +1,137 @@
+<!doctype html>
+{% load static %}
+<html lang="ru">
+<html>
+<head>
+    <meta charset="utf-8">
+    <base href="/">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Предекодер ядра CPU</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="static/mips.css" rel="stylesheet">
+</head>
+<body>
+<div class="main-wrapper">
+    <div class="d-flex flex-column align-items-center p-3 px-md-4 mb-3 bg-body border-bottom shadow-sm">
+        <a class="h5 my-0 me-md-auto fw-normal p-2 text-dark" href="{% url 'mainscreen' %}">Проект 516: Симулятор
+            предекодера ядра CPU</a>
+        <nav class="my-2 my-md-0 me-md-3">
+            <a class="p-2 text-dark" href="{% url 'x86_main' %}">x86</a>
+            <a class="p-2 text-dark" href="{% url 'mips_main' %}">MIPS</a>
+        </nav>
+        <a class="btn btn-outline-primary" href="https://wiki.miem.hse.ru/ru/Projects/516/docs">Документация</a>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-3" style="border-right:1px solid rgba(0,0,0,.1);height:500px;">
+                <div class="row">
+                    <h3>Готовые примеры наборов байт для х86</h3>
+                </div>
+                <div class="row">
+                    <a class="py-2 text-dark" href="#">Вычисление третьей степени целого числа</a>
+                </div>
+                <div class="row">
+                    <a class="py-2 text-dark" href="#">Счетчик</a>
+                </div>
+                <div class="row">
+                    <a class="py-2 text-dark" href="#">Нахождение символа в строке</a>
+                </div>
+                <div class="row">
+                    <a class="py-2 text-dark" href="#">Что-то еще там</a>
+                </div>
+                <div class="row">
+                    <a class="py-2 text-dark" href="#">Еще один пример</a>
+                </div>
+            </div>
+            <div class="col-7">
+                <div class="row ml-2">
+                    <div class="col-1>">
+                        <div class="btn-group-vertical">
+                            <input type="submit" id="resBtn" name="reset" value="Рестарт" class="btn btn-primary">
+                            <input type="submit" id="nextBtn" name="next" value="Далее" class="mt-2 btn btn-primary">
+                        </div>
+                    </div>
+                    <div class="d-flex col-10">
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="row ml-2 mt-3">
+                    Тут таблица опкоде и байтс
+                </div>
+            </div>
+            <div class="col-2">
+                Тут таблица с mov eax ebx
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+<style>
+h3 {
+  color: #007bff;
+}
+
+
+.code_container
+{
+    width: 100%;
+    overflow-y: auto;
+    height: 50%;
+}
+
+.centered {
+    align-items: center;
+    text-align: center;
+}
+.operation {
+    font-family: Courier;
+    color: #007bff;
+}
+.table {
+  display: -moz-groupbox;
+}
+
+.table tbody {
+  overflow-y: auto;
+  max-height: 190px;
+  width: 100%;
+  position: fixed;
+}
+
+.code {
+  line-height: 22px;
+    font-size: 24px;
+    font-family: Courier;
+    width: 100%;
+}
+
+.table td {
+  width: 20px;
+  text-align: center;
+}
+
+.table tbody tr:nth-child(odd){
+	background: #fff;
+}
+.table tbody tr:nth-child(even){
+	background: #F7F7F7;
+}
+
+
+
+
+
+
+
+</style>
