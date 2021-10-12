@@ -3,4 +3,4 @@ from django.shortcuts import render
 # Create your views here.
 
 def index(request):
-    return render(request, 'mainscreen/main.html')
+    return render(request, 'mainscreen/mips_main.html')
