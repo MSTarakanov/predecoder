@@ -9,6 +9,7 @@ from .forms import BytesField
 def index(request):
     error_title = "None"
     form = BytesField()
+    global stream
 
     if request.method == 'POST':
         print(request.POST)
@@ -20,12 +21,9 @@ def index(request):
                 if error_title == "None":
                     # render process page
                     print(request.POST)
-                    global stream
                     stream = bytes_string
                     global counter
                     counter = 0
-                    global commands
-                    commands.clear()
                     return redirect('process/')
                     #return render(request, 'mips/mips_process.html')
         elif 'example' in request.POST:
@@ -34,7 +32,7 @@ def index(request):
                 form = BytesField(initial={'text': 'a1090000210800022129ffff0129001808100005'})
             elif example_id == '2':
                 form = BytesField(initial={'text': 'asrfs'})
-    return render(request, 'mips/mips_main.html', {'error_title': error_title, 'form': form})
+    return render(request, 'mips/mips_main.html', {'error_title': error_title, 'form': form, 'stream': stream})
 
 
 def error_for_bytes_string(string):
@@ -45,24 +43,25 @@ def error_for_bytes_string(string):
 
 counter = 0
 stream = ""
-commands = []
+
 
 def process(request):
     global stream
-    global commands
     stream_parts = [''.join(i) for i in grouper(stream, 8)]
     counter_max = len(stream_parts) - 1
     global counter
     if request.method == 'POST':
-        if 'back' in request.POST and counter > 0:
-            counter -= 1
-            if len(commands) > 1:
-                commands.pop()
+        if 'back' in request.POST:
+            if counter > 0:
+                counter -= 1
+            else:
+                return redirect('mips_main')
         elif 'next' in request.POST and counter < counter_max:
             counter += 1
     stream_begin = ''
     bytes = []
     bits = []
+    commands = []
     operation_type = "I-Type"
 
     print(request.POST)
@@ -77,6 +76,7 @@ def process(request):
 
     bits = str("{0:032b}".format(int(stream_selected, 16)))
 
+    commands = stream_to_commands(stream_parts)
 
     if bits[0:6] == "000000":
         operation_type = "R-Type"
@@ -84,25 +84,24 @@ def process(request):
         rt = registers[bits[11:16]]
         rd = registers[bits[16:21]]
         funct = functions[bits[26:32]]
-        if 'next' in request.POST and counter <= counter_max:
-            commands.append(funct + ' ' + rs + ' ' + rt)
+        # commands.append(funct + ' ' + rs + ' ' + rt)
     elif bytes[0] == "08":
         operation_type = "J-Type"
         op = opcodes[bits[0:6]]
         addr = hex(int(bits[6:32], 2))
-        if 'next' in request.POST and counter <= counter_max:
-            commands.append(op + ' ' + addr)
+        # commands.append(op + ' ' + addr)
     else:
         operation_type = "I-Type"
         op = opcodes[bits[0:6]]
         rs = registers[bits[6:11]]
         rt = registers[bits[11:16]]
         immm = hex(int(bits[16:32], 2))
-        if 'next' in request.POST and counter <= counter_max:
-            commands.append(op + ' ' + rs + ' ' + rt + ' ' + immm)
+        # commands.append(op + ' ' + rs + ' ' + rt + ' ' + immm)
 
-    commands_chain = ' -> '.join(commands)
-
+    commands_chain = ' -> '.join(commands[0:counter])
+    if counter != 0:
+        commands_chain += ' -> '
+    command_selected = commands[counter]
 
 
     context = {
@@ -116,9 +115,37 @@ def process(request):
         'bits': bits,
         'bytes': bytes,
         'four_bytes': four_bytes,
+        'command_selected': command_selected,
     }
     return render(request, 'mips/mips_process.html', context)
 
+
+def stream_to_commands(stream_parts):
+    commands = []
+    for part in stream_parts:
+        bits = str("{0:032b}".format(int(part, 16)))
+        bytes = [part[0:2], part[2:4], part[4:6], part[6:8]]
+        if bits[0:6] == "000000":
+            operation_type = "R-Type"
+            rs = registers[bits[6:11]]
+            rt = registers[bits[11:16]]
+            rd = registers[bits[16:21]]
+            funct = functions[bits[26:32]]
+            commands.append(funct + ' ' + rs + ' ' + rt)
+        elif bytes[0] == "08":
+            operation_type = "J-Type"
+            op = opcodes[bits[0:6]]
+            addr = hex(int(bits[6:32], 2))
+            commands.append(op + ' ' + addr)
+        else:
+            operation_type = "I-Type"
+            op = opcodes[bits[0:6]]
+            rs = registers[bits[6:11]]
+            rt = registers[bits[11:16]]
+            immm = hex(int(bits[16:32], 2))
+            commands.append(op + ' ' + rs + ' ' + rt + ' ' + immm)
+
+    return commands
 
 def grouper(iterable, n):
     args = [iter(iterable)] * n

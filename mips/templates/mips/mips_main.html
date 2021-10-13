@@ -65,26 +65,29 @@
                 </div>
             </div>
             <div class="col-6">
-                {{ form.text }}
+                {% if form.text %}
+                    {{ form.text }}
+                {% elif stream %}
+                    {{ stream }}
+                {% endif %}
                 <!--                    <textarea spellcheck="false" class="form-control" id="exampleFormControlTextarea1" placeholder="Введите набор байт или выберите готовый пример из списка" rows="3"></textarea>-->
                 <!--        <textarea spellcheck="false" class = "big" type="text" name="input" placeholder="Введите код">a1090000210800022129ffff0129001808100005</textarea>-->
             </div>
         </div>
     </form>
     <div class="row">
-        <div class="col-3">
-            <img src="https://image.flaticon.com/icons/png/512/326/326925.png" alt="1 этап" height="200px"
-                 style="opacity:0.5;">
+        <div class="col-4">
+            <img src="https://i.yapx.ru/OiX9V.gif" alt="1 этап" height="300px">
         </div>
-        <div class="col-9">
-            <div class="row py-3">
+        <div class="col-8">
+            <div class="row pt-3">
                 В документации вы сможете найти интересующие вас машинные инструкции и их представление в виде
                 байт.<br/>
                 Все инструкции MIPS занимают ровно четыре байта.<br/>
                 Также, есть возможность выбрать готовый набор для наглядного примера работы предекодера.<br/>
             </div>
             {% if error_title and error_title != "None" %}
-            <div class="alert alert-danger" role="alert">
+            <div class="alert alert-danger mt-2" role="alert">
                 {{ error_title }}
             </div>
             {% endif %}

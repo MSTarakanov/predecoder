@@ -61,15 +61,67 @@
                         </div>
                     </div>
                     <div class="d-flex col-10">
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                        <div class="editor" spellcheck="false" contentEditable="true"><p contenteditable="false">
+                    {{ stream_begin }}<b class="selectedText">{{ stream_selected }}</b>{{ stream_end }}</p></div>
+<!--                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3">{{ stream }}</textarea>-->
                     </div>
                 </div>
-                <div class="row ml-2 mt-3">
-                    Тут таблица опкоде и байтс
+                <div class="row ml-1 mt-4">
+                    <div class="col-2">
+
+                    </div>
+                    <div class="col-auto">
+                        <div class="row pb-5">
+                            <table class="table table-sm table-bordered">
+                                <tbody>
+                                <tr>
+                                    <td colspan="6">Формат</td>
+                                    {% for format in formats %}
+                                    <td colspan="16">{{ format }}</td>
+                                    {% endfor %}
+                                </tr>
+                                <tr>
+                                    <td colspan="6">Значение</td>
+                                    {% for value in values %}
+                                    <td colspan="16">{{ value }}</td>
+                                    {% endfor %}
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row mt-5">
+                            <div class="col-auto">
+                                <img src="https://i.yapx.ru/Oidzn.gif" alt="1 этап"
+                                     height="200px">
+                            </div>
+                            <div class="col-5">
+                                <div class="row pt-3">
+                                    В документации вы сможете найти интересующие вас машинные инструкции и их
+                                    представление в виде
+                                    байт.<br/>
+                                    Все инструкции MIPS занимают ровно четыре байта.<br/>
+                                    Также, есть возможность выбрать готовый набор для наглядного примера работы
+                                    предекодера.<br/>
+                                </div>
+                                {% if error_title and error_title != "None" %}
+                                <div class="alert alert-danger mt-2" role="alert">
+                                    {{ error_title }}
+                                </div>
+                                {% endif %}
+                            </div>
+
+                        </div>
+
+                    </div>
                 </div>
             </div>
-            <div class="col-2">
-                Тут таблица с mov eax ebx
+            <div class="col-2 code">
+                <ul>
+                    {% for command in commands_tail %}
+                    <li>{{ command }}</li>
+                    {% endfor %}
+                    <li>{{ current_command }}</li>
+                </ul>
             </div>
         </div>
     </div>
@@ -88,6 +140,21 @@ h3 {
     width: 100%;
     overflow-y: auto;
     height: 50%;
+}
+
+.editor
+{
+  width: 100%;
+  height: 100%;
+  padding: 5px 10px 5px 10px;
+  border:1px solid #ced4da;
+  font-size:20px;
+  font-family: Palatino Linotype;
+  border-radius: .25rem;
+}
+
+.selectedText {
+  color: #007bff;
 }
 
 .centered {
@@ -127,6 +194,15 @@ h3 {
 .table tbody tr:nth-child(even){
 	background: #F7F7F7;
 }
+
+ul {
+  list-style: none;
+  position: relative;
+  padding: 0;
+}
+
+
+
 
 
 
