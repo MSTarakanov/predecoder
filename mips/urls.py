@@ -4,5 +4,5 @@ from .views import *
 
 urlpatterns = [
     path('', index, name='mips_main'),
-    path('examples/<int:example_id>/', show_example),
+    path('process/', process, name='process')
 ]

@@ -31,58 +31,66 @@
         <a class="btn btn-outline-primary" href="https://wiki.miem.hse.ru/ru/Projects/516/docs">Документация</a>
     </div>
     <div class="container">
-        <div class="row centered">
-            <div class="col-3">
-                <h3>Готовые примеры наборов байт</h3>
+        <form method="POST">
+            <div class="row centered">
+                <div class="col-3">
+                    <h3>Готовые примеры наборов байт</h3>
+                </div>
+
+                {% csrf_token %}
+                <div class="col-3">
+                    <button class="p-2 text-dark" type="submit" value="1" name="example">Вычисление третьей степени
+                        целого числа
+                    </button>
+                </div>
+                <div class="col-3">
+                    <button class="p-2 text-dark" type="submit" value="2" name="example">Счетчик</button>
+                </div>
+                <div class="col-3">
+                    <button class="p-2 text-dark" type="submit" value="3" name="example">Нахождение символа в строке
+                    </button>
+                </div>
+        </form>
+    </div>
+    <hr/>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="row pb-2">
+            <div class="col-1">
             </div>
-            <div class="col-3">
-                <a class="p-2 text-dark" href="mips/examples/1">Вычисление третьей степени целого числа</a>
+            <div class="col-3" align="right">
+                <div class="">
+<!--                    <input type="submit" id="resBtn" name="reset" value="Рестарт" class="btn btn-primary" disabled>-->
+                    <input type="submit" id="nextBtn" name="next" value="Начать" class="btn btn-with-width btn-primary btn-all-height">
+                </div>
             </div>
-            <div class="col-3">
-                <a class="p-2 text-dark" href="mips/examples/2">Счетчик</a>
-            </div>
-            <div class="col-3">
-                <a class="p-2 text-dark" href="mips/examples/3">Нахождение символа в строке</a>
+            <div class="col-6">
+                {{ form.text }}
+                <!--                    <textarea spellcheck="false" class="form-control" id="exampleFormControlTextarea1" placeholder="Введите набор байт или выберите готовый пример из списка" rows="3"></textarea>-->
+                <!--        <textarea spellcheck="false" class = "big" type="text" name="input" placeholder="Введите код">a1090000210800022129ffff0129001808100005</textarea>-->
             </div>
         </div>
-        <hr/>
-        <form method="POST">
-            {% csrf_token %}
-            <div class="row pb-2">
-                <div class="col-1">
-                </div>
-                <div class="col-3" align="right">
-                    <div class="btn-group-vertical">
-                        <input type="submit" id="resBtn" name="reset" value="Рестарт" class="btn btn-primary" disabled>
-                        <input type="submit" id="nextBtn" name="next" value="Начать" class="mt-2 btn btn-primary">
-                    </div>
-                </div>
-                <div class="col-6">
-                    {{ form.text }}
-<!--                    <textarea spellcheck="false" class="form-control" id="exampleFormControlTextarea1" placeholder="Введите набор байт или выберите готовый пример из списка" rows="3"></textarea>-->
-                    <!--        <textarea spellcheck="false" class = "big" type="text" name="input" placeholder="Введите код">a1090000210800022129ffff0129001808100005</textarea>-->
-                </div>
+    </form>
+    <div class="row">
+        <div class="col-3">
+            <img src="https://image.flaticon.com/icons/png/512/326/326925.png" alt="1 этап" height="200px"
+                 style="opacity:0.5;">
+        </div>
+        <div class="col-9">
+            <div class="row py-3">
+                В документации вы сможете найти интересующие вас машинные инструкции и их представление в виде
+                байт.<br/>
+                Все инструкции MIPS занимают ровно четыре байта.<br/>
+                Также, есть возможность выбрать готовый набор для наглядного примера работы предекодера.<br/>
             </div>
-        </form>
-        <div class="row">
-            <div class="col-3">
-                <img src="https://image.flaticon.com/icons/png/512/326/326925.png" alt="1 этап" height="200px"
-                     style="opacity:0.5;">
+            {% if error_title and error_title != "None" %}
+            <div class="alert alert-danger" role="alert">
+                {{ error_title }}
             </div>
-            <div class="col-9">
-                <div class="row py-3">
-                    В документации вы сможете найти интересующие вас машинные инструкции и их представление в виде байт.<br/>
-                    Все инструкции MIPS занимают ровно четыре байта.<br/>
-                    Также, есть возможность выбрать готовый набор для наглядного примера работы предекодера.<br/>
-                </div>
-                {% if error_title and error_title != "None"  %}
-                    <div class="alert alert-danger" role="alert">
-                        {{ error_title }}
-                    </div>
-                {% endif %}
-            </div>
+            {% endif %}
         </div>
     </div>
+</div>
 </div>
 </body>
 </html>
@@ -138,6 +146,13 @@ h3 {
 	background: #F7F7F7;
 }
 
+.btn-all-height {
+  line-height: 4.5;
+}
+
+.btn-with-width {
+  width: 100px;
+}
 
 
 </style>

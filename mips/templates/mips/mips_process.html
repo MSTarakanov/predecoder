@@ -31,140 +31,146 @@
         <a class="btn btn-outline-primary" href="https://wiki.miem.hse.ru/ru/Projects/516/docs">Документация</a>
     </div>
     <div class="container">
-        <div class="row centered">
-            <div class="col-3">
-                <h3>Готовые примеры наборов байт</h3>
+        <form method="POST">
+            <div class="row centered">
+                <div class="col-4">
+                    <h3>Цепочка полученных инструкций:</h3>
+                </div>
+                <div class="col-8 text-left">
+                    {{ commands_chain }}
+                </div>
+        </form>
+    </div>
+    <hr/>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="row pb-2">
+            <div class="col-1">
             </div>
-            <div class="col-3">
-                <a class="p-2 text-dark" href="#">Вычисление третьей степени целого числа</a>
+            <div class="col-3" align="right">
+                <div class="btn-group-vertical btn-with-width">
+                    <input type="submit" id="resBtn" name="back" value="Назад" class="btn btn-with-width btn-primary">
+                    <input type="submit" id="nextBtn" name="next" value="Далее"
+                           class="mt-2 btn-with-width btn btn-primary">
+                </div>
             </div>
-            <div class="col-3">
-                <a class="p-2 text-dark" href="#">Счетчик</a>
-            </div>
-            <div class="col-3">
-                <a class="p-2 text-dark" href="#">Нахождение символа в строке</a>
+
+            <div class="col-6">
+                <!--                {{ form.text }}-->
+                <!--                <textarea spellcheck="false" class="form-control" id="exampleFormControlTextarea1" placeholder="Введите набор байт или выберите готовый пример из списка" rows="3">{{ stream }}</textarea>-->
+                <div class="editor" spellcheck="false" contentEditable="true"><p contenteditable="false">
+                    {{ stream_begin }}<b class="selectedText">{{ stream_selected }}</b>{{ stream_end }}</p></div>
+                <!--        <textarea spellcheck="false" class = "big" type="text" name="input" placeholder="Введите код">a1090000210800022129ffff0129001808100005</textarea>-->
             </div>
         </div>
-        <hr/>
-        <form method="POST">
+    </form>
+    <div class="row">
+        <div class="col-3">
+            <img src="https://image.flaticon.com/icons/png/512/326/326925.png" alt="1 этап" height="200px"
+                 style="opacity:0.5;">
+        </div>
+        <div class="col-9">
             <div class="row">
+                <div class="col-auto" align="right">
+                    <h4>Прочитано 4 байта:</h4>
+                </div>
+                <div class="col-auto" align="left">
+                    <h4>{{ four_bytes }}</h4>
+                </div>
+                <div class="col-auto" align="right">
+                    <h4>Тип операции:</h4>
+                </div>
+                <div class="col-auto" align="left">
+                    <h4 class="operation">{{ operation_type }}</h4>
+                </div>
+            </div>
+            <div class="row">
+                <table class="table table-sm table-bordered">
+                    <tbody>
+                    {% if operation_type == "I-Type" or not operation_type %}
+                    <tr>
+                        <td colspan="6">6 бит</td>
+                        <td colspan="5">5 бит</td>
+                        <td colspan="5">5 бит</td>
+                        <td colspan="16">16 бит</td>
+                    </tr>
+                    <tr>
+                        <td colspan="6">op</td>
+                        <td colspan="5">rs</td>
+                        <td colspan="5">rt</td>
+                        <td colspan="16">immm</td>
+                        <td style="width:200px;">формат</td>
+                    </tr>
+                    <tr>
+                        <td colspan="6">код операции</td>
+                        <td colspan="5">регистр 1</td>
+                        <td colspan="5">регистр 2</td>
+                        <td colspan="16">константа</td>
+                        <td style="width:200px;">значение полей</td>
+                    </tr>
+                    {% elif operation_type == "R-Type"%}
+                    <tr>
+                        <td colspan="6">6 бит</td>
+                        <td colspan="5">5 бит</td>
+                        <td colspan="5">5 бит</td>
+                        <td colspan="5">5 бит</td>
+                        <td colspan="5">5 бит</td>
+                        <td colspan="6">6 бит</td>
+                    </tr>
+                    <tr>
+                        <td colspan="6">op</td>
+                        <td colspan="5">rs</td>
+                        <td colspan="5">rt</td>
+                        <td colspan="5">rd</td>
+                        <td colspan="5">shamt</td>
+                        <td colspan="6">funct</td>
+                        <td style="width:200px;">формат</td>
+                    </tr>
+                    <tr>
+                        <td colspan="6">код операции</td>
+                        <td colspan="5">регистр 1</td>
+                        <td colspan="5">регистр 2</td>
+                        <td colspan="5">приемник</td>
+                        <td colspan="5">сдвиг</td>
+                        <td colspan="6">функция</td>
+                        <td style="width:200px;">значение полей</td>
+                    </tr>
+                    {% elif operation_type == "J-Type"%}
+                    <tr>
+                        <td colspan="6">6 бит</td>
+                        <td colspan="26">26 бит</td>
+                    </tr>
+                    <tr>
+                        <td colspan="6">op</td>
+                        <td colspan="26">addr</td>
+                        <td style="width:200px;">формат</td>
+                    </tr>
+                    <tr>
+                        <td colspan="6">код операции</td>
+                        <td colspan="26">адрес</td>
+                        <td style="width:200px;">значение полей</td>
+                    </tr>
+                    {% endif %}
+                    <tr>
+                        {% for bit in bits %}
+                        <td>{{bit}}</td>
+                        {% endfor %}
+                        <td style="width:200px;">значение разрядов</td>
+                    </tr>
+                    <tr>
+                        <td colspan="8">{{ bytes.0 }}</td>
+                        <td colspan="8">{{ bytes.1 }}</td>
+                        <td colspan="8">{{ bytes.2 }}</td>
+                        <td colspan="8">{{ bytes.3 }}</td>
+                        <td style="width:200px;">значение байтов</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
 
-                <div class="col-1">
-                </div>
-                <div class="col-3" align="right">
-                    <div class="btn-group-vertical">
-                        <button type="submit" id="resBtn" name="reset" value="Рестарт" class="btn btn-primary" disabled>
-                        <button type="submit" id="nextBtn" name="next" value="Далее" class="mt-2 btn btn-primary">
-                    </div>
-                </div>
-                <div class="col-6">
-                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                    <!--        <textarea spellcheck="false" class = "big" type="text" name="input" placeholder="Введите код">a1090000210800022129ffff0129001808100005</textarea>-->
-                </div>
-                <div class="col-auto">
-                    <div class="code_container">
-                        <li style="list-style-type: none;" class="code">mov eax c</li>
-                        <li style="list-style-type: none;" class="code">mov eax c</li>
-                        <li style="list-style-type: none;" class="code">mov eax c</li>
-                        <li style="list-style-type: none;" class="code">mov eax c</li>
-                        <li style="list-style-type: none;" class="code">mov eax c</li>
-                        <li style="list-style-type: none;" class="code">mov eax c</li>
-                    </div>
-                </div>
-            </div>
-        </form>
-        <div class="row">
-            <div class="col-3">
-                <img src="https://image.flaticon.com/icons/png/512/326/326925.png" alt="1 этап" height="200px"
-                     style="opacity:0.5;">
-            </div>
-            <div class="col-9">
-                <div class="row">
-                    <div class="col-auto" align="right">
-                        <h4>Прочитано 4 байта:</h4>
-                    </div>
-                    <div class="col-auto" align="left">
-                        <h4>a1b2c3d4</h4>
-                    </div>
-                    <div class="col-auto" align="right">
-                        <h4>Тип операции:</h4>
-                    </div>
-                    <div class="col-auto" align="left">
-                        <h4 class="operation">I-Type</h4>
-                    </div>
-                </div>
-                <div class="row">
-                    <table class="table table-sm table-bordered">
-                        <tbody>
-                        <tr>
-                            <td colspan="6">6 бит</td>
-                            <td colspan="5">5 бит</td>
-                            <td colspan="5">5 бит</td>
-                            <td colspan="16">16 бит</td>
-                        </tr>
-                        <tr>
-                            <td colspan="6">op</td>
-                            <td colspan="5">rs</td>
-                            <td colspan="5">rt</td>
-                            <td colspan="16">immm</td>
-                            <td style="width:200px;">формат</td>
-                        </tr>
-                        <tr>
-                            <td colspan="6">код операции</td>
-                            <td colspan="5">регистр 1</td>
-                            <td colspan="5">регистр 2</td>
-                            <td colspan="16">константа</td>
-                            <td style="width:200px;">значение полей</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td style="width:200px;">значение разрядов</td>
-                        </tr>
-                        <tr>
-                            <td colspan="8">a1</td>
-                            <td colspan="8">b2</td>
-                            <td colspan="8">c3</td>
-                            <td colspan="8">d4</td>
-                            <td style="width:200px;">значение байтов</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-            </div>
         </div>
     </div>
+</div>
 </div>
 </body>
 </html>
@@ -174,6 +180,9 @@ h3 {
   color: #007bff;
 }
 
+.btn-with-width {
+  width: 100px;
+}
 
 .code_container
 {
@@ -219,6 +228,22 @@ h3 {
 .table tbody tr:nth-child(even){
 	background: #F7F7F7;
 }
+
+.editor
+{
+  width: 100%;
+  height: 100%;
+  padding: 5px 10px 5px 10px;
+  border:1px solid #ced4da;
+  font-size:20px;
+  font-family: Palatino Linotype;
+  border-radius: .25rem;
+}
+
+.selectedText {
+  color: #007bff;
+}
+
 
 
 
