@@ -25,32 +25,39 @@
         <a class="h5 my-0 me-md-auto fw-normal p-2 text-dark" href="{% url 'mainscreen' %}">Проект 516: Симулятор
             предекодера ядра CPU</a>
         <nav class="my-2 my-md-0 me-md-3">
-            <a class="p-2 text-dark" href="{% url 'x86_main' %}">x86</a>
+            <a class="p-2 text-dark" href="x86/1">x86</a>
             <a class="p-2 text-dark" href="{% url 'mips_main' %}">MIPS</a>
         </nav>
         <a class="btn btn-outline-primary" href="https://wiki.miem.hse.ru/ru/Projects/516/docs">Документация</a>
     </div>
     <div class="container">
         <div class="row">
-            <div class="col-3" style="border-right:1px solid rgba(0,0,0,.1);height:500px;">
+            <div class="col-3 centered" style="border-right:1px solid rgba(0,0,0,.1);height:500px;">
                 <div class="row">
                     <h3>Готовые примеры наборов байт для х86</h3>
                 </div>
-                <div class="row">
-                    <a class="py-2 text-dark" href="#">Вычисление третьей степени целого числа</a>
-                </div>
-                <div class="row">
-                    <a class="py-2 text-dark" href="#">Счетчик</a>
-                </div>
-                <div class="row">
-                    <a class="py-2 text-dark" href="#">Нахождение символа в строке</a>
-                </div>
-                <div class="row">
-                    <a class="py-2 text-dark" href="#">Что-то еще там</a>
-                </div>
-                <div class="row">
-                    <a class="py-2 text-dark" href="#">Еще один пример</a>
-                </div>
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="row justify-content-center">
+                        <button class="m-2 text-dark" type="submit" value="1" name="example">Вычисление третьей степени
+                            целого числа
+                        </button>
+                    </div>
+                    <div class="row justify-content-center">
+                        <button class="m-2 text-dark" type="submit" value="2" name="example">Счетчик</button>
+                    </div>
+                    <div class="row justify-content-center">
+                        <button class="m-2 text-dark" type="submit" value="3" name="example">Нахождение символа в
+                            строке
+                        </button>
+                    </div>
+                    <div class="row justify-content-center">
+                        <button class="m-2 text-dark" type="submit" value="4" name="example">Что-то еще там</button>
+                    </div>
+                    <div class="row justify-content-center">
+                        <button class="m-2 text-dark" href="#">Еще один пример</button>
+                    </div>
+                </form>
             </div>
             <div class="col-7">
                 <div class="row ml-2">
@@ -62,8 +69,9 @@
                     </div>
                     <div class="d-flex col-10">
                         <div class="editor" spellcheck="false" contentEditable="true"><p contenteditable="false">
-                    {{ stream_begin }}<b class="selectedText">{{ stream_selected }}</b>{{ stream_end }}</p></div>
-<!--                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3">{{ stream }}</textarea>-->
+                            {{ stream_begin }}<b class="selectedText">{{ stream_selected }}</b>{{ stream_end }}</p>
+                        </div>
+                        <!--                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3">{{ stream }}</textarea>-->
                     </div>
                 </div>
                 <div class="row ml-1 mt-4">
@@ -120,7 +128,7 @@
                     {% for command in commands_tail %}
                     <li>{{ command }}</li>
                     {% endfor %}
-                    <li>{{ current_command }}</li>
+                    <li class="selectedText">{{ current_command }}</li>
                 </ul>
             </div>
         </div>
@@ -200,6 +208,7 @@ ul {
   position: relative;
   padding: 0;
 }
+
 
 
 

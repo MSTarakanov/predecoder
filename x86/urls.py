@@ -3,5 +3,5 @@ from .views import *
 
 
 urlpatterns = [
-    path('', index, name='x86_main')
+    path('<int:example_id>/', index, name='x86_main')
 ]

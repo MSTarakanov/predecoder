@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 # Create your views here.
 
-def index(request):
+def index(request, example_id):
     commands = []
     counter = 1
     stream = []
@@ -10,7 +10,15 @@ def index(request):
     formats = []
     stream_begin = ''
 
-    for command_desc in example1:
+    if request.method == 'POST':
+        if 'example' in request.POST:
+            counter = 0
+            example_id = int(request.POST['example'])
+    example = example1
+    if example_id == 2:
+        example = example2
+
+    for command_desc in example:
         stream.append(command_desc['byte'])
         commands.append(command_desc['command'])
 
