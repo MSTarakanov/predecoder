@@ -3,51 +3,82 @@
 <html lang="ru">
 <html>
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-  <meta name="description" content="">
-  <meta name="author" content="">
-  <link rel="icon" href="C:\Users\Max\Desktop\Project_v1\icon.ico">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="C:\Users\Max\Desktop\Project_v1\icon.ico">
 
-  <title>Предекодер ядра CPU</title>
+    <title>Предекодер ядра CPU</title>
 
-  <!-- Bootstrap core CSS -->
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap core CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
 
-  <!-- Custom styles for this template -->
-  <link href="static/style.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="static/style.css" rel="stylesheet">
 </head>
 <body>
 <div class="main-wrapper">
-  <div class="section right col-xs-9">
-    <h2>Добро пожаловать на страницу проекта 516: </h2>
-    <h2>Симулятор предекодера ядра CPU</h2>
-  </div>
-  <div class="section right col-xs-9">
-    <div class="row">
-      <div class="col-6">
-      <a class="link-to" href="x86/1">x86</a>
+    <div class="section right col-xs-9">
+        <h2>Добро пожаловать на страницу проекта 516: </h2>
+        <h2>Симулятор предекодера ядра CPU</h2>
     </div>
-    <div class="col-6">
-      <a class="link-to" href="{% url 'mips_main' %}">MIPS</a>
+    <div class="section right col-xs-9">
+        <div class="row">
+            <h5>Введите свою почту @edu.hse.ru:</h5>
+        </div>
+        <form method="POST">
+            <div class="row">
+                {% csrf_token %}
+                {% if request.user.is_authenticated %}
+                <div class="col-auto p-0 justify-content-center">
+                  <h4>{{ user.username }}</h4>
+                </div>
+                <div class="col-2 pr-1">
+                    <button type="submit" name="logout" class="btn btn-primary">Выйти</button>
+                </div>
+                {% else %}
+                <div class="col-auto p-0">
+                    {{ form.email }}
+                </div>
+                <div class="col-2 pr-1">
+                    <button type="submit" name="login" class="btn btn-primary">Ввести</button>
+                </div>
+                {% endif %}
+            </div>
+        </form>
+        <div class="row">
+            <div class="col-6">
+              {% if request.user.is_authenticated %}
+                <a class="link-to" href="x86/1">x86</a>
+              {% else %}
+                <a class="link-to disabled" href="x86/1">x86</a>
+              {% endif %}
+            </div>
+            <div class="col-6">
+              {% if request.user.is_authenticated %}
+                <a class="link-to" href="{% url 'mips_main' %}">MIPS</a>
+              {% else %}
+                <a class="link-to disabled" href="{% url 'mips_main' %}">MIPS</a>
+              {% endif %}
+            </div>
+        </div>
+        <a class="link-to" href="https://wiki.miem.hse.ru/ru/Projects/516/docs">Документация</a>
     </div>
+    <div class="last-section right col-xs-9">
+        <div class="row">
+            <div class="col-9">
+            </div>
+            <div class="col-3">
+                <h4>Фурса Д.А.</h4>
+                <h4>Тараканов М.С.</h4>
+                <h4>Лисайчук Д.А.</h4>
+            </div>
+        </div>
     </div>
-    <a class="link-to" href="https://wiki.miem.hse.ru/ru/Projects/516/docs">Документация</a>
-  </div>
-  <div class="last-section right col-xs-9">
-    <div class="row">
-      <div class="col-9">
-    </div>
-    <div class="col-3">
-      <h4>Фурса Д.А.</h4>
-      <h4>Тараканов М.С.</h4>
-      <h4>Лисайчук Д.А.</h4>
-    </div>
-    </div>
-  </div>
 </div>
 </body>
 </html>
@@ -97,6 +128,10 @@ a:hover {
   color: #007bff;
 }
 
+h5 {
+  color: white;
+}
+
 h4 {
   color: white;
 }
@@ -112,4 +147,11 @@ h2 {
 .centered {
     align-items: center;
 }
+
+a.disabled {
+  pointer-events: none;
+  cursor: default;
+  color: gray;
+}
+
 </style>
