@@ -25,10 +25,10 @@
         <a class="h5 my-0 me-md-auto fw-normal p-2 text-dark" href="{% url 'mainscreen' %}">Проект 516: Симулятор
             предекодера ядра CPU</a>
         <nav class="my-2 my-md-0 me-md-3">
-            <a class="p-2 text-dark" href="x86/1">x86</a>
-            <a class="p-2 text-dark" href="{% url 'mips_main' %}">MIPS</a>
+            <a class="text-dark m-2 p-1" href="x86/1">x86</a>
+            <a class="text-light m-2 p-1 background-clr" href="{% url 'mips_main' %}">MIPS</a>
         </nav>
-        <a class="btn btn-outline-primary" href="https://wiki.miem.hse.ru/ru/Projects/516/docs">Документация</a>
+        <a class="m-1 btn btn-outline-primary" href="https://wiki.miem.hse.ru/ru/Projects/516/docs">Документация</a>
     </div>
     <div class="container">
         <form method="POST">
@@ -81,10 +81,14 @@
         </div>
         <div class="col-8">
             <div class="row pt-3">
-                В документации вы сможете найти интересующие вас машинные инструкции и их представление в виде
-                байт.<br/>
-                Все инструкции MIPS занимают ровно четыре байта.<br/>
-                Также, есть возможность выбрать готовый набор для наглядного примера работы предекодера.<br/>
+                В документации вы сможете найти интересующие вас машинные инструкции и их байтовое представление
+                и составить поток самостоятельно или выберите готовый набор байт.<br/>
+                Все инструкции MIPS занимают ровно четыре байта (то есть 8 символов в шестнадцатеричном коде.<br/><br/>
+                1) Branch predictor предугадывает, в какую сторону пойдёт ветвь, прежде чем это станет окончательно
+                 известно. Также, на этом этапе происходит формирование адреса первого блока байт.<br/>
+                2) Instruction Fetch Unit отвечает за извлечение инструкций, ровно по 4 байта из
+                шестнадцатиричного кода, поступающего из cash-памяти.<br/>
+                3) Из буфера блок Decoder декодирует инструкции и они записываются в очередь инструкций<br/>
             </div>
             {% if error_title and error_title != "None" %}
             <div class="alert alert-danger mt-2" role="alert">
@@ -109,6 +113,11 @@ h3 {
     width: 100%;
     overflow-y: auto;
     height: 50%;
+}
+
+.background-clr {
+  background: #007bff;
+  text-color: white;
 }
 
 .centered {

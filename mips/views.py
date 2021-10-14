@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .forms import BytesField
-
+from .models import MipsDescription
 # Create your views here.
 
 
@@ -9,7 +9,7 @@ from .forms import BytesField
 def index(request):
     error_title = "None"
     form = BytesField()
-    global stream
+    stream = get_users_stream(request)
 
     if request.method == 'POST':
         print(request.POST)
@@ -19,13 +19,12 @@ def index(request):
                 bytes_string = form.cleaned_data['text']
                 error_title = error_for_bytes_string(bytes_string)
                 if error_title == "None":
-                    # render process page
-                    print(request.POST)
-                    stream = bytes_string
-                    global counter
+                    set_users_stream(bytes_string, request)
+                    stream = get_users_stream(request)
+
+                    set_users_counter(0, request)
                     counter = 0
                     return redirect('process/')
-                    #return render(request, 'mips/mips_process.html')
         elif 'example' in request.POST:
             example_id = request.POST['example'][0]
             if example_id == '1':
@@ -41,23 +40,69 @@ def error_for_bytes_string(string):
     return "None"
 
 
-counter = 0
-stream = ""
+# counter = 0
+# stream = ""
+
+def get_users_stream(request):
+    stream = ""
+    try:
+        stream = MipsDescription.objects.all()
+        print('this is all:')
+        print(stream)
+        print(request.user)
+        stream = MipsDescription.objects.get(user=request.user).stream
+        print('this is stream:')
+        print(stream)
+    except:
+        print('no get stream for this user')
+    return stream
+
+def set_users_stream(new_value, request):
+   try:
+       desc = MipsDescription.objects.get(user=request.user)
+       desc.stream = new_value
+       desc.save()
+   except:
+       print('no set stream for this user')
+
+
+def get_users_counter(request):
+    counter = 0
+    try:
+        counter = MipsDescription.objects.get(user=request.user).counter
+    except:
+        print('no counter for this user')
+    return counter
+
+
+def set_users_counter(new_value, request):
+    try:
+        desc = MipsDescription.objects.get(user=request.user)
+        desc.counter = new_value
+        desc.save()
+    except:
+        print('no counter for this user')
+
 
 
 def process(request):
-    global stream
+    stream = get_users_stream(request)
+    print(stream)
     stream_parts = [''.join(i) for i in grouper(stream, 8)]
+    print(stream_parts)
     counter_max = len(stream_parts) - 1
-    global counter
+    counter = get_users_counter(request)
+
     if request.method == 'POST':
         if 'back' in request.POST:
             if counter > 0:
-                counter -= 1
+                set_users_counter(counter - 1, request)
+                counter = get_users_counter(request)
             else:
                 return redirect('mips_main')
         elif 'next' in request.POST and counter < counter_max:
-            counter += 1
+            set_users_counter(counter + 1, request)
+            counter = get_users_counter(request)
     stream_begin = ''
     bytes = []
     bits = []
@@ -80,23 +125,10 @@ def process(request):
 
     if bits[0:6] == "000000":
         operation_type = "R-Type"
-        rs = registers[bits[6:11]]
-        rt = registers[bits[11:16]]
-        rd = registers[bits[16:21]]
-        funct = functions[bits[26:32]]
-        # commands.append(funct + ' ' + rs + ' ' + rt)
     elif bytes[0] == "08":
         operation_type = "J-Type"
-        op = opcodes[bits[0:6]]
-        addr = hex(int(bits[6:32], 2))
-        # commands.append(op + ' ' + addr)
     else:
         operation_type = "I-Type"
-        op = opcodes[bits[0:6]]
-        rs = registers[bits[6:11]]
-        rt = registers[bits[11:16]]
-        immm = hex(int(bits[16:32], 2))
-        # commands.append(op + ' ' + rs + ' ' + rt + ' ' + immm)
 
     commands_chain = ' -> '.join(commands[0:counter])
     if counter != 0:
@@ -126,19 +158,16 @@ def stream_to_commands(stream_parts):
         bits = str("{0:032b}".format(int(part, 16)))
         bytes = [part[0:2], part[2:4], part[4:6], part[6:8]]
         if bits[0:6] == "000000":
-            operation_type = "R-Type"
             rs = registers[bits[6:11]]
             rt = registers[bits[11:16]]
             rd = registers[bits[16:21]]
             funct = functions[bits[26:32]]
             commands.append(funct + ' ' + rs + ' ' + rt)
         elif bytes[0] == "08":
-            operation_type = "J-Type"
             op = opcodes[bits[0:6]]
             addr = hex(int(bits[6:32], 2))
             commands.append(op + ' ' + addr)
         else:
-            operation_type = "I-Type"
             op = opcodes[bits[0:6]]
             rs = registers[bits[6:11]]
             rt = registers[bits[11:16]]

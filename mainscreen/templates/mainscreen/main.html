@@ -28,6 +28,13 @@
     </div>
     <div class="section right col-xs-9">
         <div class="row">
+            {% if error_massage %}
+            <div class="alert alert-danger" role="alert">
+                {{ error_massage }}
+            </div>
+            {% endif %}
+        </div>
+        <div class="row">
             <h5>Введите свою почту @edu.hse.ru:</h5>
         </div>
         <form method="POST">
@@ -35,7 +42,7 @@
                 {% csrf_token %}
                 {% if request.user.is_authenticated %}
                 <div class="col-auto p-0 justify-content-center">
-                  <h4>{{ user.username }}</h4>
+                    <h4>{{ user.username }}</h4>
                 </div>
                 <div class="col-2 pr-1">
                     <button type="submit" name="logout" class="btn btn-primary">Выйти</button>
@@ -52,18 +59,18 @@
         </form>
         <div class="row">
             <div class="col-6">
-              {% if request.user.is_authenticated %}
+                {% if request.user.is_authenticated %}
                 <a class="link-to" href="x86/1">x86</a>
-              {% else %}
+                {% else %}
                 <a class="link-to disabled" href="x86/1">x86</a>
-              {% endif %}
+                {% endif %}
             </div>
             <div class="col-6">
-              {% if request.user.is_authenticated %}
+                {% if request.user.is_authenticated %}
                 <a class="link-to" href="{% url 'mips_main' %}">MIPS</a>
-              {% else %}
+                {% else %}
                 <a class="link-to disabled" href="{% url 'mips_main' %}">MIPS</a>
-              {% endif %}
+                {% endif %}
             </div>
         </div>
         <a class="link-to" href="https://wiki.miem.hse.ru/ru/Projects/516/docs">Документация</a>
@@ -153,5 +160,6 @@ a.disabled {
   cursor: default;
   color: gray;
 }
+
 
 </style>
