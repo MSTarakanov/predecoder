@@ -62,10 +62,13 @@
             <div class="col-7">
                 <div class="row ml-2">
                     <div class="col-1>">
+                        <form method="POST">
+                            {% csrf_token %}
                         <div class="btn-group-vertical">
-                            <input type="submit" id="resBtn" name="reset" value="Рестарт" class="btn btn-primary">
+                            <input type="submit" id="resBtn" name="back" value="Назад" class="btn btn-primary">
                             <input type="submit" id="nextBtn" name="next" value="Далее" class="mt-2 btn btn-primary">
                         </div>
+                        </form>
                     </div>
                     <div class="d-flex col-10">
                         <div class="editor" spellcheck="false" contentEditable="true"><p contenteditable="false">

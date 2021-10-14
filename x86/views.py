@@ -1,6 +1,39 @@
 from django.shortcuts import render
-
+from .models import IntelDescription
 # Create your views here.
+
+def get_users_counter(request):
+    counter = 0
+    try:
+        counter = IntelDescription.objects.get(user=request.user).counter
+    except:
+        print('no counter for this user')
+    return counter
+
+def set_users_counter(new_value, request):
+    try:
+        desc = IntelDescription.objects.get(user=request.user)
+        desc.counter = new_value
+        desc.save()
+    except:
+        print('no counter for this user')
+
+def get_user_example_id(request):
+    example_id = 1
+    try:
+        example_id = IntelDescription.objects.get(user=request.user).example_id
+    except:
+        print('no example_id for this user')
+    return example_id
+
+def set_user_example_id(new_value, request):
+    try:
+        desc = IntelDescription.objects.get(user=request.user)
+        desc.example_id = new_value
+        desc.save()
+    except:
+        print('no example_id for this user')
+
 
 def index(request, example_id):
     commands = []
@@ -10,18 +43,36 @@ def index(request, example_id):
     formats = []
     stream_begin = ''
 
+    counter = get_users_counter(request)
+    example_id = get_user_example_id(request)
+
     if request.method == 'POST':
+        print(request.POST)
         if 'example' in request.POST:
+            new_example_id = int(request.POST['example'])
+            set_users_counter(0, request)
             counter = 0
-            example_id = int(request.POST['example'])
-    example = example1
+            set_user_example_id(new_example_id, request)
+            example_id = get_user_example_id(request)
+
     if example_id == 2:
         example = example2
+    else:
+        example = example1
 
     for command_desc in example:
         stream.append(command_desc['byte'])
         commands.append(command_desc['command'])
 
+    counter_max = len(stream)
+    if request.method == 'POST':
+        print(counter, counter_max)
+        if 'next' in request.POST and counter + 1 < counter_max:
+            set_users_counter(counter+1, request)
+            counter = get_users_counter(request)
+        elif 'back' in request.POST and counter > 0:
+            set_users_counter(counter - 1, request)
+            counter = get_users_counter(request)
     if counter > 0:
         stream_begin = ''.join(stream[:counter])
     stream_selected = stream[counter]
@@ -30,7 +81,7 @@ def index(request, example_id):
     commands_tail = commands[:counter]
     current_command = commands[counter]
 
-    for desc in example1[counter]['description']:
+    for desc in example[counter]['description']:
         formats.append(desc[0])
         values.append(desc[1])
 

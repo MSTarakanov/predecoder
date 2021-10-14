@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from .forms import EmailForm, UserRegistrationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-
+from x86.models import IntelDescription
 # Create your views here.
 
 def index(request):
@@ -22,6 +22,8 @@ def index(request):
                 users_dict = dict(username=username, password='')
                 user = User.objects.create(**users_dict)
                 user.save()
+                users_intel_desc = IntelDescription.objects.create(user=user)
+
             print(user)
             login(request, user)
         elif 'logout' in request.POST:
