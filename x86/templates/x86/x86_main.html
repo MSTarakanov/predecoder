@@ -11,13 +11,13 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Предекодер ядра CPU</title>
+    <title>Предекодер x86</title>
 
     <!-- Bootstrap core CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="static/mips.css" rel="stylesheet">
+<!--    <link href="static/mips.css" rel="stylesheet">-->
 </head>
 <body>
 <div class="main-wrapper">
@@ -55,7 +55,7 @@
                         <button class="m-2 text-dark" type="submit" value="4" name="example">Что-то еще там</button>
                     </div>
                     <div class="row justify-content-center">
-                        <button class="m-2 text-dark" href="#">Еще один пример</button>
+                        <button class="m-2 text-dark" type="submit" value="5" name="example">Еще один пример</button>
                     </div>
                 </form>
             </div>
@@ -64,17 +64,17 @@
                     <div class="col-1>">
                         <form method="POST">
                             {% csrf_token %}
-                        <div class="btn-group-vertical">
-                            <input type="submit" id="resBtn" name="back" value="Назад" class="btn btn-primary">
-                            <input type="submit" id="nextBtn" name="next" value="Далее" class="mt-2 btn btn-primary">
-                        </div>
+                            <div class="btn-group-vertical">
+                                <input type="submit" id="resBtn" name="back" value="Назад" class="btn btn-primary">
+                                <input type="submit" id="nextBtn" name="next" value="Далее"
+                                       class="mt-2 btn btn-primary">
+                            </div>
                         </form>
                     </div>
                     <div class="d-flex col-10">
                         <div class="editor" spellcheck="false" contentEditable="true"><p contenteditable="false">
                             {{ stream_begin }}<b class="selectedText">{{ stream_selected }}</b>{{ stream_end }}</p>
                         </div>
-                        <!--                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3">{{ stream }}</textarea>-->
                     </div>
                 </div>
                 <div class="row ml-1 mt-4">
@@ -82,7 +82,7 @@
 
                     </div>
                     <div class="col-auto">
-                        <div class="row pb-5">
+                        <div class="row">
                             <table class="table table-sm table-bordered">
                                 <tbody>
                                 <tr>
@@ -100,12 +100,12 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="row mt-5">
+                        <div class="row">
                             <div class="col-auto">
-<!--                                <img src="https://i.yapx.ru/Oidzn.gif" alt="1 этап"-->
-<!--                                     height="200px">-->
-<!--                                <img src="https://i.yapx.ru/OjHHZ.png" alt="1 этап"-->
-<!--                                     height="300px">-->
+                                <!--                                <img src="https://i.yapx.ru/Oidzn.gif" alt="1 этап"-->
+                                <!--                                     height="200px">-->
+                                <!--                                <img src="https://i.yapx.ru/OjHHZ.png" alt="1 этап"-->
+                                <!--                                     height="300px">-->
                                 <img src="https://i.yapx.ru/Oo1Gz.gif" alt="1 этап"
                                      height="300px">
                             </div>
@@ -183,7 +183,7 @@ h3 {
   overflow-y: auto;
   max-height: 190px;
   width: 100%;
-  position: fixed;
+<!--  position: fixed;-->
 }
 
 .code {
@@ -199,7 +199,8 @@ h3 {
 }
 
 .table tbody tr:nth-child(odd){
-	background: #fff;
+<!--	background: #fff;-->
+  background: blue;
 }
 .table tbody tr:nth-child(even){
 	background: #F7F7F7;
@@ -215,6 +216,8 @@ ul {
   background: #007bff;
   text-color: white;
 }
+
+
 
 
 

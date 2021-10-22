@@ -34,8 +34,8 @@
             </div>
             {% endif %}
         </div>
-        <div class="row">
-            <h5>Введите свою почту @edu.hse.ru:</h5>
+        <div class="row text-center">
+            <h5>Введите свою корпоративную почту hse,<br> чтобы получить доступ к x86 и MIPS:</h5>
         </div>
         <form method="POST">
             <div class="row">
@@ -80,9 +80,15 @@
             <div class="col-9">
             </div>
             <div class="col-3">
-                <h4>Фурса Д.А.</h4>
-                <h4>Тараканов М.С.</h4>
-                <h4>Лисайчук Д.А.</h4>
+                <div class="row">
+                    <a class="link-to" href="{% url 'mips_main' %}">Фурса Д.А.</a>
+                </div>
+                <div class="row">
+                    <a class="link-to" href="https://github.com/MSTarakanov">Тараканов М.С.</a>
+                </div>
+                <div class="row">
+                <a class="link-to" href="{% url 'mips_main' %}">Лисайчук Д.А.</a>
+                </div>
             </div>
         </div>
     </div>

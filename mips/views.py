@@ -1,9 +1,7 @@
 from django.shortcuts import render, redirect
 from .forms import BytesField
 from .models import MipsDescription
-# Create your views here.
-
-
+import string
 
 
 def index(request):
@@ -34,14 +32,13 @@ def index(request):
     return render(request, 'mips/mips_main.html', {'error_title': error_title, 'form': form, 'stream': stream})
 
 
-def error_for_bytes_string(string):
-    if len(string) % 4 != 0:
+def error_for_bytes_string(str):
+    if not all(c in string.hexdigits for c in str):
+        return "Неправильный формат введенных данных, поток должен содержать только шестнадцатеричные символы"
+    if len(str) % 4 != 0:
         return "Все инструкции MIPS должны занимать ровно по четыре байта!"
     return "None"
 
-
-# counter = 0
-# stream = ""
 
 def get_users_stream(request):
     stream = ""
@@ -82,7 +79,6 @@ def set_users_counter(new_value, request):
         desc.save()
     except:
         print('no counter for this user')
-
 
 
 def process(request):
@@ -176,9 +172,11 @@ def stream_to_commands(stream_parts):
 
     return commands
 
+
 def grouper(iterable, n):
     args = [iter(iterable)] * n
     return zip(*args)
+
 
 registers = {
     '00000': '$zero',

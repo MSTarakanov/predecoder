@@ -98,10 +98,16 @@ def index(request, example_id):
     }
     return render(request, 'x86/x86_main.html', context)
 
-example1 = [{'byte': 'byte1', 'description': [['opcode', '0x8B', '8 бит'], ['immediate', '0x000000', '32 бит']], 'command': 'MOV EAX, 0'},
-            {'byte': 'byte2', 'description': [['opcode', '0x2B', '8 бит'], ['immediate', '0x00032', '16 бит']], 'command': 'ROX 33, U'}]
+example1 = [{'byte': 'byte1', 'description': [['Prefix', '0x66', '8 бит'], ['Opcode', '0xA1', '8 бит'], ['Displacement', '0x00403000', '32 бит']], 'command': 'MOV AX, U'},
+            {'byte': 'byte2', 'description': [['opcode', '0x2B', '8 бит'], ['immediate', '0x00032', '16 бит']], 'command': 'IMUL V'},
+            {'byte': 'byte2', 'description': [['opcode', '0x2B', '8 бит'], ['immediate', '0x00032', '16 бит']], 'command': 'MOV BX, AX'},
+            {'byte': 'byte2', 'description': [['Prefix', '0x66', '8 бит'], ['Opcode', '0xA1', '8 бит'], ['Displacement', '0x00603000', '32 бит']], 'command': 'MOV AX, Z'},
+            {'byte': 'byte2', 'description': [['opcode', '0x2B', '8 бит'], ['immediate', '0x00032', '16 бит']], 'command': 'SUB AX, BX'},
+            {'byte': 'byte2', 'description': [['opcode', '0x2B', '8 бит'], ['immediate', '0x00032', '16 бит']], 'command': 'IDIV W'},
+            {'byte': 'byte2', 'description': [['Prefix', '0x66', '8 бит'], ['Opcode', '0xA1', '8 бит'], ['Displacement', '0x00503000', '32 бит']], 'command': 'ADD AX, Y'},
+            {'byte': 'byte2', 'description': [['opcode', '0x2B', '8 бит'], ['immediate', '0x00032', '16 бит']], 'command': 'MOV X, AX'}]
 
-example2 = [{'byte': 'byte1', 'description': [['opcode', '0x8B', '8 бит'], ['immediate', '0x000000', '32 бит']], 'command': 'MOV EAX, 0'},
+example2 = [{'byte': 'byte1', 'description': [['opcode', '0x8B', '8 бит'], ['immediate', '0x000000', '32 бит'], ['opcode', '0x8B', '8 бит'], ['immediate', '0x000000', '32 бит'], ['immediate', '0x000000', '32 бит'], ['opcode', '0x8B', '8 бит']], 'command': 'MOV EAX, 0'},
             {'byte': 'byte2', 'description': [['opcode', '0x2B', '8 бит'], ['immediate', '0x00032', '16 бит']], 'command': 'ROX 33, U'},
             {'byte': 'byte3', 'description': [['opcode', '0x2B', '8 бит'], ['immediate', '0x00032', '16 бит']], 'command': 'ROX 33, U'},
             {'byte': 'byte4', 'description': [['opcode', '0x2B', '8 бит'], ['immediate', '0x00032', '16 бит']], 'command': 'ROX 33, U'}]
