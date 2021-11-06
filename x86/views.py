@@ -98,14 +98,14 @@ def index(request, example_id):
     }
     return render(request, 'x86/x86_main.html', context)
 
-example1 = [{'byte': 'byte1', 'description': [['Prefix', '0x66', '8 бит'], ['Opcode', '0xA1', '8 бит'], ['Displacement', '0x00403000', '32 бит']], 'command': 'MOV AX, U'},
-            {'byte': 'byte2', 'description': [['opcode', '0x2B', '8 бит'], ['immediate', '0x00032', '16 бит']], 'command': 'IMUL V'},
-            {'byte': 'byte2', 'description': [['opcode', '0x2B', '8 бит'], ['immediate', '0x00032', '16 бит']], 'command': 'MOV BX, AX'},
-            {'byte': 'byte2', 'description': [['Prefix', '0x66', '8 бит'], ['Opcode', '0xA1', '8 бит'], ['Displacement', '0x00603000', '32 бит']], 'command': 'MOV AX, Z'},
-            {'byte': 'byte2', 'description': [['opcode', '0x2B', '8 бит'], ['immediate', '0x00032', '16 бит']], 'command': 'SUB AX, BX'},
-            {'byte': 'byte2', 'description': [['opcode', '0x2B', '8 бит'], ['immediate', '0x00032', '16 бит']], 'command': 'IDIV W'},
-            {'byte': 'byte2', 'description': [['Prefix', '0x66', '8 бит'], ['Opcode', '0xA1', '8 бит'], ['Displacement', '0x00503000', '32 бит']], 'command': 'ADD AX, Y'},
-            {'byte': 'byte2', 'description': [['opcode', '0x2B', '8 бит'], ['immediate', '0x00032', '16 бит']], 'command': 'MOV X, AX'}]
+example1 = [{'byte': '66A100403000', 'description': [['Prefix', '0x66', '8 бит'], ['Opcode', '0xA1', '8 бит'], ['Displacement', '0x00403000', '32 бит']], 'command': 'MOV AX, U'},
+            {'byte': '66F72D004030A1', 'description': [['Prefix', '0x66', '8 бит'],['Opcode', '0x89', '8 бит'], ['immediate', '0x00032', '16 бит']], 'command': 'IMUL V'},
+            {'byte': '6689C3', 'description': [['Prefix', '0x66', '8 бит'],['Opcode', '0x89', '8 бит'], ['Mod R/M', '0xC3', '16 бит']], 'command': 'MOV BX, AX'},
+            {'byte': '66A10040303F', 'description': [['Prefix', '0x66', '8 бит'], ['Opcode', '0xA1', '8 бит'], ['Displacement', '0x00603000', '32 бит']], 'command': 'MOV AX, Z'},
+            {'byte': '6629D8', 'description': [['opcode', '0x2B', '8 бит'], ['immediate', '0x00032', '16 бит']], 'command': 'SUB AX, BX'},
+            {'byte': '66F73D0040307D', 'description': [['opcode', '0x2B', '8 бит'], ['immediate', '0x00032', '16 бит']], 'command': 'IDIV W'},
+            {'byte': '66030500403AFF', 'description': [['opcode', '0x2B', '8 бит'], ['immediate', '0x00032', '16 бит']], 'command': 'ADD AX, Y'},
+            {'byte': '66A300402000', 'description': [['opcode', '0x2B', '8 бит'], ['immediate', '0x00032', '16 бит']], 'command': 'MOV X, AX'}]
 
 example2 = [{'byte': 'byte1', 'description': [['opcode', '0x8B', '8 бит'], ['immediate', '0x000000', '32 бит'], ['opcode', '0x8B', '8 бит'], ['immediate', '0x000000', '32 бит'], ['immediate', '0x000000', '32 бит'], ['opcode', '0x8B', '8 бит']], 'command': 'MOV EAX, 0'},
             {'byte': 'byte2', 'description': [['opcode', '0x2B', '8 бит'], ['immediate', '0x00032', '16 бит']], 'command': 'ROX 33, U'},

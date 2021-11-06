@@ -118,6 +118,10 @@ def process(request):
     bits = str("{0:032b}".format(int(stream_selected, 16)))
 
     commands = stream_to_commands(stream_parts)
+    if commands == []:
+        error_title = "Были введены некорректные данные"
+        form = BytesField(initial={'text': stream})
+        return render(request, 'mips/mips_main.html', {'error_title': error_title, 'form': form, 'stream': stream})
 
     if bits[0:6] == "000000":
         operation_type = "R-Type"
@@ -150,26 +154,28 @@ def process(request):
 
 def stream_to_commands(stream_parts):
     commands = []
-    for part in stream_parts:
-        bits = str("{0:032b}".format(int(part, 16)))
-        bytes = [part[0:2], part[2:4], part[4:6], part[6:8]]
-        if bits[0:6] == "000000":
-            rs = registers[bits[6:11]]
-            rt = registers[bits[11:16]]
-            rd = registers[bits[16:21]]
-            funct = functions[bits[26:32]]
-            commands.append(funct + ' ' + rs + ' ' + rt)
-        elif bytes[0] == "08":
-            op = opcodes[bits[0:6]]
-            addr = hex(int(bits[6:32], 2))
-            commands.append(op + ' ' + addr)
-        else:
-            op = opcodes[bits[0:6]]
-            rs = registers[bits[6:11]]
-            rt = registers[bits[11:16]]
-            immm = hex(int(bits[16:32], 2))
-            commands.append(op + ' ' + rs + ' ' + rt + ' ' + immm)
-
+    try:
+        for part in stream_parts:
+            bits = str("{0:032b}".format(int(part, 16)))
+            bytes = [part[0:2], part[2:4], part[4:6], part[6:8]]
+            if bits[0:6] == "000000":
+                rs = registers[bits[6:11]]
+                rt = registers[bits[11:16]]
+                rd = registers[bits[16:21]]
+                funct = functions[bits[26:32]]
+                commands.append(funct + ' ' + rs + ' ' + rt)
+            elif bytes[0] == "08":
+                op = opcodes[bits[0:6]]
+                addr = hex(int(bits[6:32], 2))
+                commands.append(op + ' ' + addr)
+            else:
+                op = opcodes[bits[0:6]]
+                rs = registers[bits[6:11]]
+                rt = registers[bits[11:16]]
+                immm = hex(int(bits[16:32], 2))
+                commands.append(op + ' ' + rs + ' ' + rt + ' ' + immm)
+    except Exception:
+        return []
     return commands
 
 
