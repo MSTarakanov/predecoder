@@ -121,7 +121,8 @@ def process(request):
     if commands == []:
         error_title = "Были введены некорректные данные"
         form = BytesField(initial={'text': stream})
-        return render(request, 'mips/mips_main.html', {'error_title': error_title, 'form': form, 'stream': stream})
+        return redirect('mips_main')
+       # return render(request, 'mips/mips_main.html', {'error_title': error_title, 'form': form, 'stream': stream})
 
     if bits[0:6] == "000000":
         operation_type = "R-Type"

@@ -7,7 +7,7 @@ from mips.models import MipsDescription
 # Create your views here.
 
 def is_valid_mail(email_domen):
-    if email_domen == 'edu.hse.ru':
+    if email_domen == 'edu.hse.ru' or email_domen == 'hse.ru':
         return True
     return False
 
