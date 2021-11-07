@@ -60,9 +60,9 @@
         <div class="row">
             <div class="col-6">
                 {% if request.user.is_authenticated %}
-                <a class="link-to" href="x86/1">x86</a>
+                <a class="link-to" href="{% url 'x86_main' %}">x86</a>
                 {% else %}
-                <a class="link-to disabled" href="x86/1">x86</a>
+                <a class="link-to disabled" href="{% url 'x86_main' %}">x86</a>
                 {% endif %}
             </div>
             <div class="col-6">

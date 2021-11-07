@@ -35,7 +35,7 @@ def set_user_example_id(new_value, request):
         print('no example_id for this user')
 
 
-def index(request, example_id):
+def index(request):
     commands = []
     counter = 1
     stream = []
