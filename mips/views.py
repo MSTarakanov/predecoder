@@ -26,9 +26,11 @@ def index(request):
         elif 'example' in request.POST:
             example_id = request.POST['example'][0]
             if example_id == '1':
-                form = BytesField(initial={'text': 'a1090000210800022129ffff0129001808100005'})
+                form = BytesField(initial={'text': '23bdfff8afa40004afbf0000200800020088402a110000032002000123bd000803e000082084ffff0c1000008fbf00008fa4000423bd00080044001803e00008'})
             elif example_id == '2':
-                form = BytesField(initial={'text': 'asrfs'})
+                form = BytesField(initial={'text': '2408000524090000240a00002129000101495020110900010810000324020001008a2021'})
+            elif example_id == '3':
+                form = BytesField(initial={'text': '240900dc8d2900008c0a0014012a001b00005810116000043c0110013424003c240200040810000d3c0110013424000824020004'})
     return render(request, 'mips/mips_main.html', {'error_title': error_title, 'form': form, 'stream': stream})
 
 
@@ -174,7 +176,7 @@ def stream_to_commands(stream_parts):
                 rs = registers[bits[6:11]]
                 rt = registers[bits[11:16]]
                 immm = hex(int(bits[16:32], 2))
-                commands.append(op + ' ' + rs + ' ' + rt + ' ' + immm)
+                commands.append(op + ' ' + rt + ' ' + rs + ' ' + immm)
     except Exception:
         return []
     return commands
@@ -241,10 +243,12 @@ functions = {
     '100101': 'or',
     '100110': 'xor',
     '100111': 'nor',
-    '101010': 'slt'
+    '101010': 'slt',
+    '011100': 'mul',
 }
 
 opcodes = {
+    '011100': 'mul',
     '000010': 'j',
     '000011': 'jal',
     '000100': 'beq',
