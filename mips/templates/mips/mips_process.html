@@ -21,14 +21,14 @@
 </head>
 <body>
 <div class="main-wrapper">
-    <div class="d-flex flex-column align-items-center p-3 px-md-4 mb-3 bg-body border-bottom shadow-sm">
+   <div class="d-flex flex-column align-items-center p-3 px-md-4 mb-3 bg-body border-bottom shadow-sm">
         <a class="h5 my-0 me-md-auto fw-normal p-2 text-dark" href="{% url 'mainscreen' %}">Проект 516: Симулятор
             предекодера ядра CPU</a>
         <nav class="my-2 my-md-0 me-md-3">
-            <a class="p-2 text-dark" href="{% url 'x86_main' %}">x86</a>
-            <a class="p-2 text-dark" href="{% url 'mips_main' %}">MIPS</a>
+            <a class="text-dark m-2 p-1" href="{% url 'x86_main' %}">x86</a>
+            <a class="text-light m-2 p-1 background-clr" href="{% url 'mips_main' %}">MIPS</a>
         </nav>
-        <a class="btn btn-outline-primary" href="https://wiki.miem.hse.ru/ru/Projects/516/docs">Документация</a>
+        <a class="m-1 btn btn-outline-primary" href="https://wiki.miem.hse.ru/ru/Projects/516/docs">Документация</a>
     </div>
     <div class="container">
         <form method="POST">
@@ -190,6 +190,11 @@ h3 {
     width: 100%;
     overflow-y: auto;
     height: 50%;
+}
+
+.background-clr {
+  background: #007bff;
+  text-color: white;
 }
 
 .centered {

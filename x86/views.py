@@ -116,7 +116,7 @@ examples = [
     {'byte': '66A300402000', 'description': [['Prefix', '0x66'], ['Opcode', '0xA3'], ['Displacement', '0x00402000']], 'command': 'MOV X, AX'}]},
 
      {'name': 'Вычисление минимума и максимума в массиве',
-      'desc': 'Для начала ..., далее приравниваем минимум и максимум к первому элементу массива. Каждый последующий элемент сравнивается со значением в регистрах, и, если подходит под условие максимума или минимума, то записывается в регистр.', 'example':
+      'desc': 'В регистре ECX - число элементов в массиве. Приравниваем минимум и максимум к первому элементу массива. Каждый последующий элемент сравнивается со значением в регистрах, и, если подходит под условие максимума или минимума, то записывается в регистр.', 'example':
     [{'byte': '33F6', 'description': [['Opcode', '0x33'], ['Mod R/M', '0xF6']],'command': 'XOR ESI, ESI'},
      {'byte': 'A100403000', 'description': [['Opcode', '0xA1'], ['Displacement', '0x00403000']],'command': 'MOV EAX, [0x00403000]'},
      {'byte': '8B1D00403000', 'description': [['Opcode', '0x8B'], ['Mod R/M', '0x1D'],['Displacement', '0x00403000']],'command': 'MOV EBX, [0x00403000]'},
@@ -128,7 +128,6 @@ examples = [
      {'byte': '7C24', 'description': [['Opcode', '0x7C'], ['Relative', '0x24']],'command': 'JL [0x24]'},
      {'byte': 'EB00', 'description': [['Opcode', '0xEB'], ['Relative', '0x00']],'command': 'JMP [0x00]'},
      {'byte': '3B9E00403000', 'description': [['Opcode', '0x3B'], ['Mod R/M', '0x9E'],['Displacement', '0x00403000']],'command': 'CMP EBX, [0x00403000]'},
-     {'byte': '7412', 'description': [['Opcode', '0x74'], ['Relative', '0x12']],'command': 'JE [0x12]'},
      {'byte': '7412', 'description': [['Opcode', '0x74'], ['Relative', '0x12']],'command': 'JE [0x12]'}]},
 
     {'name': 'Расчет гипотенузы',

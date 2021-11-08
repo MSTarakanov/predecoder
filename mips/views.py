@@ -30,7 +30,7 @@ def index(request):
             elif example_id == '2':
                 form = BytesField(initial={'text': '2408000524090000240a00002129000101495020110900010810000324020001008a2021'})
             elif example_id == '3':
-                form = BytesField(initial={'text': '240900dc8d2900008c0a0014012a001b00005810116000043c0110013424003c240200040810000d3c0110013424000824020004'})
+                form = BytesField(initial={'text': '240900dc8d290000240a0014012a001b00005810116000043c0110013424003c240200040810000d3c0110013424000824020004'})
     return render(request, 'mips/mips_main.html', {'error_title': error_title, 'form': form, 'stream': stream})
 
 
@@ -46,12 +46,7 @@ def get_users_stream(request):
     stream = ""
     try:
         stream = MipsDescription.objects.all()
-        print('this is all:')
-        print(stream)
-        print(request.user)
         stream = MipsDescription.objects.get(user=request.user).stream
-        print('this is stream:')
-        print(stream)
     except:
         print('no get stream for this user')
     return stream
@@ -85,9 +80,7 @@ def set_users_counter(new_value, request):
 
 def process(request):
     stream = get_users_stream(request)
-    print(stream)
     stream_parts = [''.join(i) for i in grouper(stream, 8)]
-    print(stream_parts)
     counter_max = len(stream_parts) - 1
     counter = get_users_counter(request)
 
@@ -106,8 +99,6 @@ def process(request):
     bits = []
     commands = []
     operation_type = "I-Type"
-
-    print(request.POST)
 
     if counter > 0:
         stream_begin = ''.join(stream_parts[:counter])
@@ -162,11 +153,19 @@ def stream_to_commands(stream_parts):
             bits = str("{0:032b}".format(int(part, 16)))
             bytes = [part[0:2], part[2:4], part[4:6], part[6:8]]
             if bits[0:6] == "000000":
-                rs = registers[bits[6:11]]
-                rt = registers[bits[11:16]]
-                rd = registers[bits[16:21]]
                 funct = functions[bits[26:32]]
-                commands.append(funct + ' ' + rs + ' ' + rt)
+                rs = registers[bits[6:11]]
+                if rs == '$0':
+                    rs = ''
+                rt = registers[bits[11:16]]
+                if rt == '$0':
+                    rt = ''
+                rd = registers[bits[16:21]]
+                print('RDRDRDRD!!!!:' + rd)
+                if not (rd != rt and rd != rs and rd != '$0'):
+                    rd = ''
+
+                commands.append(funct + ' ' + rt + ' ' + rs + ' ' + rd)
             elif bytes[0] == "08":
                 op = opcodes[bits[0:6]]
                 addr = hex(int(bits[6:32], 2))
@@ -174,9 +173,16 @@ def stream_to_commands(stream_parts):
             else:
                 op = opcodes[bits[0:6]]
                 rs = registers[bits[6:11]]
+                if (rs == '$0' and op != 'beq' and op != 'addiu' and op != 'addi') or op == 'jal':
+                    rs = ''
                 rt = registers[bits[11:16]]
+                if (rt == '$0' and op != 'beq' and op != 'addiu' and op != 'addi') or op == 'jal':
+                    rt = ''
                 immm = hex(int(bits[16:32], 2))
-                commands.append(op + ' ' + rt + ' ' + rs + ' ' + immm)
+                if op == 'lw' or op == 'sw':
+                    commands.append(op + ' ' + rt + ' ' + immm + '(' + rs + ')')
+                else:
+                    commands.append(op + ' ' + rt + ' ' + rs + ' ' + immm)
     except Exception:
         return []
     return commands
@@ -188,7 +194,7 @@ def grouper(iterable, n):
 
 
 registers = {
-    '00000': '$zero',
+    '00000': '$0',
     '00001': '$at',
     '00010': '$v0',
     '00011': '$v1',
@@ -263,7 +269,7 @@ opcodes = {
     '100000': 'lb',
     '100001': 'lh',
     '100010': 'lw',
-    '100011': 'ld',
+    '100011': 'lw',
     '100100': 'lbu',
     '100101': 'lhu',
     '101000': 'sb',
