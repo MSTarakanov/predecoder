@@ -29,3 +29,10 @@ Teхнологии:
 - grouper() – метод, который переводит поток байт в поток бит.
 ---
 Результат: [predecoder.ru](https://predecoder.ru/)
+<br/>
+
+<img src="/readme_sources/1.png" style="width:80%;"/>
+<img src="/readme_sources/2.png" style="width:80%;"/>
+<img src="/readme_sources/3.png" style="width:80%;"/>
+<img src="/readme_sources/4.png" style="width:80%;"/>
+<img src="/readme_sources/5.png" style="width:80%;"/>
